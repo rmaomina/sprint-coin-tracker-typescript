@@ -3,10 +3,8 @@ import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import Coins from "routes/Coins";
 import Coin from "routes/Coin";
-import "./App.css";
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&display=swap');
   ${reset}
 
   * {
