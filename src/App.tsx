@@ -22,6 +22,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Noto Sans KR', sans-serif;
     background-color: ${props => props.theme.bgColor};
     color: ${props => props.theme.textColor};
+    font-weight: 400;
+    line-height: 1.5rem;
   }
 `;
 
