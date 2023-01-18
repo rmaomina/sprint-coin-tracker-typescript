@@ -1,6 +1,8 @@
-import Router from "routes/Router";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import Coins from "routes/Coins";
+import Coin from "routes/Coin";
 import "./App.css";
 
 const GlobalStyle = createGlobalStyle`
@@ -27,7 +29,12 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Router />
+      <Router>
+        <Switch>
+          <Route path="/:coinId" component={Coin} />
+          <Route path="/" component={Coins} />
+        </Switch>
+      </Router>
     </>
   );
 }
