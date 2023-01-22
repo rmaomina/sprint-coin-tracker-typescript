@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { ReactQueryDevtools } from "react-query/devtools";
 import reset from "styled-reset";
 import Coins from "routes/Coins";
 import Coin from "routes/Coin";
@@ -27,15 +28,14 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <>
+    <Router>
       <GlobalStyle />
-      <Router>
-        <Switch>
-          <Route path="/:coinId" component={Coin} />
-          <Route path="/" component={Coins} />
-        </Switch>
-      </Router>
-    </>
+      <Switch>
+        <Route exact path="/" component={Coins} />
+        <Route path="/:coinId" component={Coin} />
+      </Switch>
+      <ReactQueryDevtools initialIsOpen position="top-right" />
+    </Router>
   );
 }
 
