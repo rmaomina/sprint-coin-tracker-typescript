@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import {
   useLocation,
@@ -187,6 +188,9 @@ function Coin() {
   const { isLoading: priceLoading, data: priceData } = useQuery<ICoinPrice>(
     ["price", coinId],
     () => fetchCoinPrice(coinId),
+    {
+      refetchInterval: 1000 * 60,
+    },
   );
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
@@ -222,6 +226,9 @@ function Coin() {
 
   return (
     <Container>
+      <Helmet>
+        <title>{CoinTitle}</title>
+      </Helmet>
       <Header>
         <Title>{CoinTitle}</Title>
       </Header>
@@ -239,8 +246,8 @@ function Coin() {
               <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Source:</span>
-              <span>{infoData?.open_source ? "✅" : "🛑"}</span>
+              <span>Price:</span>
+              <span>$ {priceData?.quotes.USD.price.toFixed(2)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -263,8 +270,12 @@ function Coin() {
             </Tab>
           </Tabs>
           <Switch>
-            <Route path="/:coinId/price" component={Price} />
-            <Route path="/:coinId/chart" component={Chart} />
+            <Route path="/:coinId/price">
+              <Price />
+            </Route>
+            <Route path="/:coinId/chart">
+              <Chart coinId={coinId} />
+            </Route>
           </Switch>
         </>
       )}
