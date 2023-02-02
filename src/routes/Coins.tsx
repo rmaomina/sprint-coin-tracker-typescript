@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { fetchCoins } from "api";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
