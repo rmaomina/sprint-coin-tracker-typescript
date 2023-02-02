@@ -18,74 +18,90 @@ interface IHistorical {
 }
 
 function Chart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<IHistorical[]>(
+  const { isLoading, isError, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
     {
-      refetchInterval: 1000 * 3600,
+      staleTime: 1000 * 60 * 5,
+      cacheTime: 1000,
     },
   );
 
+  if (isError) {
+    return <div>Error...</div>;
+  }
+
   return (
     <div>
-      {isLoading ? (
-        "Loading Charts..."
-      ) : (
-        <ApexChart
-          type="line"
-          series={[
-            {
-              name: "Price",
-              data: data?.map(price => Number(price.close)) as number[],
-            },
-          ]}
-          options={{
-            theme: {
-              mode: "dark",
-            },
-            chart: {
-              height: 500,
-              width: 500,
-              toolbar: {
-                show: false,
-              },
-              background: "rgba(0,0,0,0)",
-            },
-            grid: {
-              show: false,
-            },
-            xaxis: {
-              labels: {
-                show: false,
-                datetimeFormatter: {
-                  month: "mmm 'yy",
+      {isLoading
+        ? "Loading Charts..."
+        : data && (
+            <ApexChart
+              type="line"
+              series={[
+                {
+                  name: "Price",
+                  data: data?.map(price => Number(price.close)) as number[],
                 },
-              },
-              type: "datetime",
-              categories: data?.map(date => date.time_close),
-            },
-            yaxis: {
-              show: false,
-            },
-            stroke: {
-              curve: "smooth",
-              width: 2,
-            },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#F2CD5C", "#F2921D", "#A61F69", "#400E32"],
-                stops: [0, 100],
-              },
-            },
-            tooltip: {
-              y: {
-                formatter: v => `$ ${v.toFixed(2)}`,
-              },
-            },
-          }}
-        />
-      )}
+              ]}
+              options={{
+                theme: {
+                  mode: "dark",
+                },
+                chart: {
+                  height: 500,
+                  width: 500,
+                  toolbar: {
+                    tools: {},
+                  },
+                  background: "rgba(0,0,0,0)",
+                },
+                grid: {
+                  show: false,
+                },
+                xaxis: {
+                  labels: {
+                    show: false,
+                    datetimeFormatter: {
+                      month: "mmm 'yy",
+                    },
+                  },
+                  type: "datetime",
+                  categories: data?.map(date => date.time_close),
+                  axisBorder: {
+                    show: false,
+                  },
+                  axisTicks: {
+                    show: false,
+                  },
+                },
+                yaxis: {
+                  show: false,
+                },
+                stroke: {
+                  curve: "smooth",
+                  width: 3,
+                },
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    gradientToColors: [
+                      "#F2CD5C",
+                      "#F2921D",
+                      "#A61F69",
+                      "#400E32",
+                    ],
+                    stops: [0, 100],
+                  },
+                },
+                tooltip: {
+                  y: {
+                    formatter: v => `$ ${v.toFixed(2)}`,
+                  },
+                },
+              }}
+            />
+          )}
     </div>
   );
 }
