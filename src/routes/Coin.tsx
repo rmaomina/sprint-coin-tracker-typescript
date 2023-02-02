@@ -195,24 +195,6 @@ function Coin() {
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
 
-  // const [loading, setLoading] = useState(true);
-  // const [info, setInfo] = useState<InfoData>();
-  // const [price, setPrice] = useState<PriceData>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const coinData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
-  //     setInfo(coinData);
-  //     setPrice(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]);
-
   const loading = infoLoading || priceLoading;
   let CoinTitle = null;
 
